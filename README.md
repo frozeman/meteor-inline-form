@@ -70,3 +70,16 @@ The result will be an object with key-values. The key is the input/selects name 
     myOtherField: 'some other value'
 }
 ```
+
+## Catching change events on the select
+
+To track when a change was made for a inline-form select use the following event:
+
+```js
+
+Template['myTemplate'].events({
+    'click span[name="myField"] .simple-modal button': function(e){
+        // do somthing with the clicked value: $(e.currentTarget).data('value'))
+    }
+});
+```
