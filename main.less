@@ -5,7 +5,7 @@
     position: relative;
     display: inline-block;
 
-    input, button {
+    input, button, span {
         padding: 0;
         margin: 0;
         width: auto;
@@ -14,23 +14,18 @@
         border: 0;
         border-bottom: 1px dashed #6691C2;
         text-align: center;
+
+        &:disabled,
+        &.disabled {
+            color: #909090;
+            border-bottom: 1px dashed #909090;
+        }
     }
 
     .simple-modal {
         max-width: 200px;
         width: auto;
         box-shadow: 0 0 5px rgba(0,0,0,0.3);
-
-        ul {
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            list-style: none;
-
-            li {
-                display: block;
-            }
-        }
 
         button {
             width: 100%;
@@ -43,6 +38,10 @@
                 background-color: #eee;
             }
         }
+    }
+
+    .simple-modal.animate {
+        transform-origin: 0 0%;
     }
 }
 

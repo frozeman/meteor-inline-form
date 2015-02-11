@@ -4,6 +4,42 @@ Template Controllers
 @module Templates
 **/
 
+/**
+Get an input forms values
+
+@method InlineForm
+@param {string} containerElements the selector for a container element, or selector for `inline-form` element(s)
+@return {Object} 
+*/
+InlineForm = function(containerElements) {
+    if(_.isString(containerElements)) {
+        var $elements = ($(containerElements).hasClass('inline-form'))
+                ? $(containerElements)
+                : $(containerElements).find('.inline-form'),
+            returnValue = {};
+        
+        _.each($elements.toArray(), function(item){
+            if($(item).hasClass('inline-form')) {
+                if($(item).find('input')[0]) {
+
+                    returnValue[$(item).find('input').prop('name')] = $(item).find('input').val();
+                } else if($(item).find('button, span.disabled')[0]) {
+
+                    returnValue[$(item).find('button, span.disabled').data('name')] = $(item).find('button, span.disabled').attr('data-value');
+                }
+            }
+        });
+        
+        return returnValue;
+    }
+};
+
+
+/**
+Sets the input size based on the input text
+
+@method setInputSize
+*/
 var setInputSize = function(template, value) {
     value = value || template.data.value;
 
@@ -54,7 +90,7 @@ The inline form element template
 @constructor
 **/
 
-Template['inlineForm'].created = function(){
+Template['InlineForm'].created = function(){
     var template = this;
 
     // set on start to the first value
@@ -78,7 +114,7 @@ Template['inlineForm'].created = function(){
     }
 };
 
-Template['inlineForm'].rendered = function(){
+Template['InlineForm'].rendered = function(){
     setInputSize(this);
 
     // autofocus field
@@ -87,11 +123,11 @@ Template['inlineForm'].rendered = function(){
 };
 
 
-Template['inlineForm'].helpers({
+Template['InlineForm'].helpers({
     /**
     Get the last set value
 
-    @method ((getValue))
+    @method (getValue)
     @param {String} type if the type is "date", it will reformat to DD.MM.YYYY
     */
     'getValue': function(type){
@@ -103,7 +139,8 @@ Template['inlineForm'].helpers({
     /**
     Get the selection
 
-    @method ((selection))
+    @method (selection)
+    @paran {Boolean} value If true it will get the value, otherwise the text of the item.
     */
     'selection': function(value){
         var selectionIndex = TemplateVar.get('selection');
@@ -112,7 +149,7 @@ Template['inlineForm'].helpers({
     /**
     Return true, if the current item is not selected
 
-    @method ((isNotSelected))
+    @method (isNotSelected)
     */
     'isNotSelected': function(){
         var selectionIndex = TemplateVar.get('selection');
@@ -120,20 +157,17 @@ Template['inlineForm'].helpers({
         return (parentData.items[selectionIndex].value !== this.value);
     },
     /**
-    Return the custom parsley validator attribute
+    Check if type === date
 
-    @method ((isNotSelected))
+    @method (isDate)
     */
-    'customValidatorAttr': function(){
-        var attr = {};
-        if(this.customValidator)
-            attr['data-parsley-'+ this.customValidator] = 'true';
-        return this.customValidator ? attr : '';
+    'isDate': function(){
+        return (this.type === 'date');
     },
     /**
     Return a disbaled attribute if its disbaled
 
-    @method ((disabledAttribute))
+    @method (disabledAttribute)
     */
     'disabledAttribute': function(){
         return (this.disabled) ? {disabled: 'disabled'} : '';
@@ -141,7 +175,7 @@ Template['inlineForm'].helpers({
 })
 
 
-Template['inlineForm'].events({
+Template['InlineForm'].events({
     /**
     Grows the input size
 
@@ -150,19 +184,6 @@ Template['inlineForm'].events({
     'keyup input': function(e, template){
         setInputSize(template, e.currentTarget.value);
     },
-    /**
-    Store the inputs value, when blur
-
-    @event blur input
-    */
-    // 'blur input': function(e, template){
-    //     var formData = Session.get('formData');
-    //     formData[template.data.name] = e.currentTarget.value;
-    //     Session.set('formData', formData);
-
-    //     // GA
-    //     ga('send', 'event', formData.insuranceSelection +'Wizard', template.data.name, e.currentTarget.value);
-    // },
     /**
     Prevent default on all buttons, to prevent validation
 
@@ -175,9 +196,9 @@ Template['inlineForm'].events({
     /**
     Show the modal, or switch the selection, if there are only two values
 
-    @event click button.selection
+    @event click .inline-form > button
     */
-    'click button.selection': function(e, template){
+    'click .inline-form > button': function(e, template){
 
         // dont show the modal, just switch the selection, if there are only two
         if(_.isArray(template.data.items) && template.data.items.length === 2) {

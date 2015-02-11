@@ -1,52 +1,35 @@
-<template name="inlineForm">
+<template name="InlineForm">
     <span class="inline-form">
         {{#if items}}
-            <!-- <div class="{{name}}"> -->
-                
-                {{#if disabled}}
-                    <span class="selection disabled" data-value="{{selection true}}">{{selection}}</span>
-                {{else}}
-
-                    <button type="button" name="{{name}}" class="selection {{#if addCaret}}has-caret{{/if}}" data-value="{{selection true}}">
-                        {{selection}}
-                        {{#if addCaret}}
-                            <i class="icon-arrow-down6"></i>
-                        {{/if}}
-                    </button>
-
-                    {{#simpleModal trigger="showModal" template-var=true}}
-                        <ul class="vertical-menu">
-                            {{#each items}}
-                                {{#if isNotSelected items}}
-                                    <li>
-                                        <button data-value="{{value}}">{{text}}</button>
-                                    </li>
-                                {{/if}}
-                            {{/each}}
-                        </ul>
-                    {{/simpleModal}}
-                {{/if}}
-            <!-- </div> -->
-        {{else}}
-            {{#if $eq type "date"}}
-                {{#if form_hasInputDate}}
-                    <input type="date" name="{{name}}"
-                        value="{{getValue}}"
-                        style="width: {{width}};"
-                        placeholder="{{placeholder}}"
-                        {{disabledAttribute}}
-                        required>
-                {{else}}
-                    <input type="text" name="{{name}}"
-                        value="{{getValue 'date'}}"
-                        placeholder="{{placeholder}}"
-                        style="width: {{width}};"
-                        {{disabledAttribute}}
-                        required>
-
-                {{/if}}
+            {{#if disabled}}
+                <span class="disabled" data-name="{{name}}" data-value="{{selection true}}">{{selection}}</span>
             {{else}}
-                <!-- <span contenteditable="true">{{text}}</span> -->
+
+                <button type="button" data-name="{{name}}" data-value="{{selection true}}" style="width: {{width}};">
+                    {{selection}}
+                </button>
+
+                {{#simpleModal trigger="showModal" template-var=true}}
+                    <ul>
+                        {{#each items}}
+                            {{#if isNotSelected items}}
+                                <li>
+                                    <button data-value="{{value}}">{{text}}</button>
+                                </li>
+                            {{/if}}
+                        {{/each}}
+                    </ul>
+                {{/simpleModal}}
+            {{/if}}
+        {{else}}
+            {{#if isDate}}
+                <input type="date" name="{{name}}"
+                    value="{{getValue}}"
+                    style="width: {{width}};"
+                    placeholder="{{placeholder}}"
+                    {{disabledAttribute}}
+                    required>
+            {{else}}
                 <input type="text" name="{{name}}"
                     value="{{getValue}}"
                     style="width: {{width}};"

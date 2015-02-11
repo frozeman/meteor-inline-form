@@ -13,7 +13,9 @@ Package.onUse(function(api) {
 
   api.use('frozeman:animation-helper@0.2.5', 'client');
   api.use('frozeman:template-var@1.0.5', 'client');
-  api.use('frozeman:simple-modal@0.0.6', 'client');
+  api.use('frozeman:simple-modal@0.0.7', 'client');
+
+  api.export('InlineForm', 'client');
 
   api.addFiles('main.less', 'client');
 
