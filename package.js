@@ -1,6 +1,6 @@
 Package.describe({
   name: 'frozeman:inline-form',
-  summary: 'An input and select element for usage in a text',
+  summary: 'Form elements for usage in an inline text.',
   version: '0.0.1',
   git: 'http://github.com/frozeman/meteor-inline-form'
 });
