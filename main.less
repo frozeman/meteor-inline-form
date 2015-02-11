@@ -1,0 +1,48 @@
+
+
+.inline-form {
+    z-index: 20;
+    position: relative;
+    display: inline-block;
+
+    input, button {
+        padding: 0;
+        margin: 0;
+        width: auto;
+        min-width: 20px;
+        background-color: transparent;
+        border: 0;
+        border-bottom: 1px dashed #6691C2;
+        text-align: center;
+    }
+
+    .simple-modal {
+        max-width: 200px;
+        width: auto;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+
+        ul {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+            li {
+                display: block;
+            }
+        }
+
+        button {
+            width: 100%;
+            padding: 8px 15px;
+            border: 0;
+            box-sizing: border-box;
+
+
+            &:hover {
+                background-color: #eee;
+            }
+        }
+    }
+}
+
