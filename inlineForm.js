@@ -93,25 +93,7 @@ The inline form element template
 Template['InlineForm'].created = function(){
     var template = this;
 
-    // set on start to the first value
-    if(_.isArray(this.data.items)) {
-        // get the index of the selection
-        var key = null;
-        _.find(this.data.items, function(item, k){
-            if(item.value === template.data.value) {
-                key = k;
-                return true;
-            }
-        });
-
-        // get the current value
-        if(key)
-            TemplateVar.set('selection', key);
-        // set current value
-        else {
-            TemplateVar.set('selection', 0);
-        }
-    }
+    TemplateVar.set('selection', 0);
 };
 
 Template['InlineForm'].rendered = function(){
@@ -125,6 +107,30 @@ Template['InlineForm'].rendered = function(){
 
 Template['InlineForm'].helpers({
     /**
+    Sets the default value of an selection and makes sure its reactive, when the contexts value changes.
+
+    @method (setSelectionValue)
+    */
+    'setSelectionValue': function(){
+        var _this = this;
+
+        // set on start to the first value
+        if(_.isArray(this.items) && this.value) {
+            // get the index of the selection
+            var key = null;
+            _.find(this.items, function(item, k){
+                if(item.value == _this.value) {
+                    key = k;
+                    return true;
+                }
+            });
+
+            // get the current value
+            if(key)
+                TemplateVar.set('selection', key);
+        }
+    },
+    /**
     Get the last set value
 
     @method (getValue)
@@ -134,7 +140,6 @@ Template['InlineForm'].helpers({
         return (type === 'date' && moment(setInputSize(Template.instance())).isValid())
             ? moment(setInputSize(Template.instance())).format('DD.MM.YYYY')
             : setInputSize(Template.instance());
-
     },
     /**
     Get the selection

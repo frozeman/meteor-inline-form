@@ -1,6 +1,8 @@
 <template name="InlineForm">
     <span class="inline-form" name="{{name}}">
         {{#if items}}
+            {{setSelectionValue}}
+
             {{#if disabled}}
                 <span class="disabled" data-name="{{name}}" data-value="{{selection true}}">{{selection}}</span>
             {{else}}
@@ -12,11 +14,13 @@
                 {{#simpleModal trigger="showModal" template-var=true}}
                     <ul>
                         {{#each items}}
+                            <li>
                             {{#if isNotSelected items}}
-                                <li>
-                                    <button data-value="{{value}}">{{text}}</button>
-                                </li>
+                                <button data-value="{{value}}">{{text}}</button>
+                            {{else}}
+                                <button data-value="{{value}}" disabled="disabled">{{text}}</button>
                             {{/if}}
+                            </li>
                         {{/each}}
                     </ul>
                 {{/simpleModal}}
