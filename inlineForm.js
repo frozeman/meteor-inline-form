@@ -65,16 +65,20 @@ Selects the correct value and stores in the session
 */
 var selectValues = function(e, template, chooseOppositeValue){
     var selectionIndex,
-        value;
+        value,
+        text;
     _.find(template.data.items, function(item, key){
         if ((!chooseOppositeValue && item.value === $(e.currentTarget).attr('data-value')) ||
             (chooseOppositeValue && item.value !== $(e.currentTarget).attr('data-value'))) {
             value = item.value;
+            text = item.text;
             selectionIndex = key;
             return true;
         }
     });
 
+    // send change event
+    template.$('.inline-form').trigger('change', value, text);
 
     TemplateVar.set(template, 'selection', selectionIndex);
 

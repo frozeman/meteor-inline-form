@@ -78,8 +78,9 @@ To track when a change was made for a inline-form select use the following event
 ```js
 
 Template['myTemplate'].events({
-    'click span[name="myField"] .simple-modal button': function(e){
-        // do somthing with the clicked value: $(e.currentTarget).data('value'))
+    // catch the "onchange" event for the .inline-form element you want to observe
+    'change .inline-form': function(e, template, value, text){
+        // do something with the selected "value" and "text"
     }
 });
 ```
