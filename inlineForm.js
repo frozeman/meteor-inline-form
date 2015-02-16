@@ -119,18 +119,19 @@ Template['InlineForm'].helpers({
         var _this = this;
 
         // set on start to the first value
-        if(_.isArray(this.items) && this.value) {
+        if(_.isArray(_this.items) && _this.value) {
             // get the index of the selection
             var key = null;
-            _.find(this.items, function(item, k){
+            _.find(_this.items, function(item, k){
                 if(item.value == _this.value) {
                     key = k;
                     return true;
                 }
             });
 
+
             // get the current value
-            if(key)
+            if(_.isFinite(key))
                 TemplateVar.set('selection', key);
         }
     },
@@ -142,7 +143,7 @@ Template['InlineForm'].helpers({
     */
     'getValue': function(type){
         return (type === 'date' && moment(setInputSize(Template.instance())).isValid())
-            ? moment(setInputSize(Template.instance())).format('DD.MM.YYYY')
+            ? moment(setInputSize(Template.instance())).format('YYYY-MM-DD')
             : setInputSize(Template.instance());
     },
     /**
@@ -153,6 +154,7 @@ Template['InlineForm'].helpers({
     */
     'selection': function(value){
         var selectionIndex = TemplateVar.get('selection');
+
         return (value) ? this.items[selectionIndex].value : this.items[selectionIndex].text;
     },
     /**
