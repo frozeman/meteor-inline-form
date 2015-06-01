@@ -15,7 +15,7 @@
                     <ul>
                         {{#each items}}
                             <li>
-                            {{#if isNotSelected items}}
+                            {{#if isNotSelected}}
                                 <button data-value="{{value}}">{{text}}</button>
                             {{else}}
                                 <button data-value="{{value}}" disabled="disabled">{{text}}</button>

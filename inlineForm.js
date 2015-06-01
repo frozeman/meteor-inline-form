@@ -155,7 +155,11 @@ Template['InlineForm'].helpers({
     'selection': function(value){
         var selectionIndex = TemplateVar.get('selection');
 
-        return (value) ? this.items[selectionIndex].value : this.items[selectionIndex].text;
+        var item = (!this.items[selectionIndex])
+            ? _.last(this.items)
+            : this.items[selectionIndex];
+
+        return (value) ? item.value : item.text;
     },
     /**
     Return true, if the current item is not selected
@@ -165,7 +169,12 @@ Template['InlineForm'].helpers({
     'isNotSelected': function(){
         var selectionIndex = TemplateVar.get('selection');
             parentData = Template.parentData(1);
-        return (parentData.items[selectionIndex].value !== this.value);
+
+        var items = (!parentData.items[selectionIndex])
+            ? _.last(parentData.items)
+            : parentData.items[selectionIndex];
+
+        return (items.value !== this.value);
     },
     /**
     Check if type === date
