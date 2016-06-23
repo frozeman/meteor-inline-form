@@ -67,9 +67,11 @@ var selectValues = function(e, template, chooseOppositeValue){
     var selectionIndex,
         value,
         text;
+
+
     _.find(template.data.items, function(item, key){
-        if ((!chooseOppositeValue && item.value === $(e.currentTarget).attr('data-value')) ||
-            (chooseOppositeValue && item.value !== $(e.currentTarget).attr('data-value'))) {
+        if ((!chooseOppositeValue && item.value == $(e.currentTarget).attr('data-value')) ||
+            (chooseOppositeValue && item.value != $(e.currentTarget).attr('data-value'))) {
             value = item.value;
             text = item.text;
             selectionIndex = key;
